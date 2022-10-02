@@ -10,16 +10,34 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th>ID</th>
-            <th>nombres</th>
-            <th>apellidos holi</th>
+            <th>Rut</th>
+            <th>Nombre empleado</th>
+            <th>Categoría</th>
+            <th>Años de servicio empresa</th>
+            <th>Sueldo fijo mensual </th>
+            <th>Bonificación horas extras </th>
+            <th>Bonificación tiempo de servicio</th>
+            <th>Bonificación por puntualidad</th>
+            <th>Sueldo bruto</th>
+            <th>Cotización previsional</th>
+            <th>Cotizacion salud</th>
+            <th>Monto sueldo final</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="personal:${personales}">
-            <td th:text="${personal.id}"></td>
-            <td th:text="${personal.nombres}"></td>
-            <td th:text="${personal.apellidos}"></td>
+            <td th:text="${personal.rut}"></td>
+            <td th:text="${personal.nombre_empleado}"></td>
+            <td th:text="${personal.categoria}"></td>
+            <td th:text="${personal.anos_servicio_empresa}"></td>
+            <td th:text="${personal.sueldo_fijo_mensual}"></td>
+            <td th:text="${personal.bonificacion_horas_extras}"></td>
+            <td th:text="${personal.bonificacion_tiempo_servicio}"></td>
+            <td th:text="${personal.bonificacion_puntualidad}"></td>
+            <td th:text="${personal.sueldo_bruto}"></td>
+            <td th:text="${personal.cotizacion_previsional}"></td>
+            <td th:text="${personal.cotizacion_plan_salud}"></td>
+            <td th:text="${personal.monto_suelto_final}"></td>
             <td>
                 <a class="btn btn-primary" href="#" role="button">Editar</a>
                 <a class="btn btn-danger" href="#" role="button">Eliminar</a>

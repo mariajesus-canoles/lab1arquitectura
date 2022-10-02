@@ -5,21 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.text.DateFormat;
-import java.time.LocalDate;
 
 @Entity
-@Table(name = "hora_extra")
+@Table(name = "categoria")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HoraExtraEntity {
+public class CategoriaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
 
     private Long id;
-    private LocalDate fecha;
-    private Integer num_horas;
-    private Long id_personal;
+    private String nombre;
 }

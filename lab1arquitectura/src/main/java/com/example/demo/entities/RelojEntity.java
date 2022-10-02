@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "reloj")
@@ -20,6 +21,7 @@ public class RelojEntity {
 
     private Long id;
     private LocalDate fecha;
-    private String hora;
+    private LocalTime hora_entrada;
+    private LocalTime hora_salida;
     private Long id_personal;
 }

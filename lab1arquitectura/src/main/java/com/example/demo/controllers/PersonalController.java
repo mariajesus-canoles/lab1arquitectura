@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entities.PlanillaEntity;
 import com.example.demo.entities.PersonalEntity;
+import com.example.demo.services.PagoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +18,16 @@ public class PersonalController {
     @Autowired
     PersonalService personalService;
 
+    @Autowired
+    PagoService pagoService;
+
+
     @GetMapping("/listar")
     public String listar(Model model) {
-        ArrayList<PersonalEntity> personales=personalService.obtenerPersonales();
+        ArrayList<PlanillaEntity> personales=personalService.obtenerPlanillaPersonales();
         model.addAttribute("personales",personales);
-        return "index";
+    return "index";
+
     }
 }
 

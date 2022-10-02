@@ -20,6 +20,5 @@ public class JustificativoEntity {
 
     private Long id;
     private LocalDate fecha;
-    private Integer num_horas;
     private Long id_personal;
 }

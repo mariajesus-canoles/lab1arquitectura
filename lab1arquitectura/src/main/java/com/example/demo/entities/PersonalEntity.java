@@ -26,7 +26,7 @@ public class PersonalEntity {
     private String rut;
     private LocalDate fecha_nacimiento;
     private LocalDate fecha_ingreso;
-    private String categoria;
-    private String area;
+    private Long id_categoria;
+    private Long id_area;
 
 }
