@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 
+
+
 @Service
 public class JustificativoService {
     @Autowired
@@ -44,27 +46,4 @@ public class JustificativoService {
         }
     }
 
-    Integer calcularNumInasistencia(Long idPersonal){
-        Integer numInasistencia = 0;
-        ArrayList<LocalDate> listaFechasDelMes = relojRepository.buscarFechasDelMes();
-        for (LocalDate fecha: listaFechasDelMes){
-            RelojEntity reloj = relojRepository.buscarRelojDePersonal(idPersonal, fecha);
-            if (reloj == null){
-                numInasistencia++;
-            } else if (reloj.getHora_entrada().getHour() > 9
-                    || (reloj.getHora_entrada().getHour() == 9 && reloj.getHora_entrada().getMinute() > 10)) {
-                numInasistencia++;
-            } else if (reloj.getHora_salida().getHour() < 17
-                    || (reloj.getHora_salida().getHour() == 17 && reloj.getHora_salida().getMinute() < 15)) {
-                numInasistencia++;
-            }
-        }
-        return numInasistencia;
-    }
-
-    Integer calcularDescuentoPorInasistencia(Long idPersonal, Integer sueldoFijo){
-        Integer numInasistencia = this.calcularNumInasistencia(idPersonal);
-        Double descuentoInasistencia = sueldoFijo * 0.15;
-        return descuentoInasistencia.intValue();
-    }
 }

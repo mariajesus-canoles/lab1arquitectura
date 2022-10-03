@@ -1,11 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.PagoEntity;
-import com.example.demo.entities.PersonalEntity;
-import com.example.demo.entities.PlanillaEntity;
-import com.example.demo.repositories.CategoriaRepository;
-import com.example.demo.repositories.PagoRepository;
-import com.example.demo.repositories.PersonalRepository;
+import com.example.demo.entities.*;
+import com.example.demo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +20,12 @@ public class PersonalService {
 
     @Autowired
     PagoRepository pagoRepository;
+
+    @Autowired
+    RelojRepository relojRepository;
+
+    @Autowired
+    JustificativoRepository justificativoRepository;
 
     @Autowired
     HoraExtraService horaExtraService;
@@ -84,14 +86,30 @@ public class PersonalService {
             //Bonificación por puntualidad
             Integer bonificacionPuntualidad = relojService.calcularBonificacionPuntualidad(personal.getId(), sueldoFijo);
             planilla.setBonificacion_puntualidad(bonificacionPuntualidad);
+
+            //información
+            ArrayList<String> listaFechasDelMes = relojRepository.buscarFechasDelMes();
+            ArrayList<RelojEntity> relojesPersonal = relojRepository.buscarRelojesDePersonal(personal.getId());
+            ArrayList<JustificativoEntity> justificativosPersonal = justificativoRepository.buscarJustificativosDePersonal(personal.getId());
+
+            //Descuentos
             //Descuentos por tardanzas en el ingreso
+            System.out.println("Calcular descuento tardanza");
+            DescuentoContext context = new DescuentoContext();
+            context.setDescuentoMethod(new DescuentoTardanza());
+            Integer descuentoTardanza = context.aplicarDescuento(personal.getId(), sueldoFijo, listaFechasDelMes, relojesPersonal, justificativosPersonal);
+            System.out.println(descuentoTardanza);
+            planilla.setDescuento_tardanza(descuentoTardanza);
             //Descuentos por retiros antes de la hora de salida
-            //---Descuento por inasistencia
-            Integer descuentoInasistencia = justificativoService.calcularDescuentoPorInasistencia(personal.getId(), sueldoFijo);
-            System.out.println("Descuento por inasistencia");
-            System.out.println(descuentoInasistencia);
+            System.out.println("Calcular descuento retiro");
+            DescuentoContext context2 = new DescuentoContext();
+            context.setDescuentoMethod(new DescuentoRetiro());
+            Integer descuentoRetiro = context.aplicarDescuento(personal.getId(), sueldoFijo, listaFechasDelMes, relojesPersonal, justificativosPersonal);
+            System.out.println(descuentoRetiro);
+            planilla.setDescuento_retiro(descuentoRetiro);
+
             //Sueldo bruto
-            Integer sueldoBruto = 10000000;
+            Integer sueldoBruto = sueldoFijo + bonificacionHorasExtras + bonificacionTiempoServicio + bonificacionPuntualidad - (descuentoTardanza + descuentoRetiro);
             planilla.setSueldo_bruto(sueldoBruto);
             ArrayList<Integer> cotizaciones= this.calcularCotizacion(this.personalRepository.buscarFechaIngreso(personal.getId()), sueldoBruto);
             //Cotización Previsional

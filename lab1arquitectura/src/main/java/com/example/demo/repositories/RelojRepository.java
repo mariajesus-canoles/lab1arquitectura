@@ -24,7 +24,7 @@ public interface RelojRepository extends CrudRepository<RelojEntity, Long>{
     ArrayList<RelojEntity> buscarRelojesDePersonal(@Param("id_personal") Long id_personal);
 
     @Query(value = "SELECT DISTINCT reloj.fecha FROM reloj", nativeQuery = true)
-    ArrayList<LocalDate> buscarFechasDelMes();
+    ArrayList<String> buscarFechasDelMes();
 
     @Query(value = "SELECT * FROM reloj WHERE reloj.id_personal=:id_personal AND reloj.fecha=:fecha", nativeQuery = true)
     RelojEntity buscarRelojDePersonal(@Param("id_personal") Long id_personal, @Param("fecha") LocalDate fecha);
