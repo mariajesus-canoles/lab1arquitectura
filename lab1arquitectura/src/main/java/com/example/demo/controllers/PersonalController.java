@@ -18,8 +18,6 @@ public class PersonalController {
     @Autowired
     PersonalService personalService;
 
-    @Autowired
-    PagoService pagoService;
 
 
     @GetMapping("/listar")

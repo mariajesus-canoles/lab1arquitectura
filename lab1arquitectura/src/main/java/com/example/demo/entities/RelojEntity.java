@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -18,10 +17,11 @@ public class RelojEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-
     private Long id;
     private LocalDate fecha;
     private LocalTime hora_entrada;
     private LocalTime hora_salida;
     private Long id_personal;
+
+
 }
