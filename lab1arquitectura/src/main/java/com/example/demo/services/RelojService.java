@@ -100,14 +100,11 @@ public class RelojService {
         if (!archivo.isEmpty()){
             try{
                 String archivoString = new String(archivo.getBytes(), StandardCharsets.UTF_8);
-
                 Factory factory = new Factory();
                 Lectura lectura = factory.crearLectura(archivo.getContentType());
                 matrizArchivo = lectura.LecturaArchivo(archivoString);
-
             } catch (IOException e){
                 e.printStackTrace();
-
             }
         }
         ArrayList<RelojEntity> listaRelojes = new ArrayList<RelojEntity>();
@@ -116,37 +113,12 @@ public class RelojService {
             LocalDate fecha = LocalDate.parse(arrayArchivo.get(0), df);
             LocalTime hora = LocalTime.parse(arrayArchivo.get(1));
             String rut = arrayArchivo.get(2);
-            ArrayList<RelojEntity> reloj = relojRepository.buscarRelojPorRutYFecha(rut, fecha);
-            //Long idPersonal = relojRepository.buscarIdPersonalPorRut(rut);
-            //ArrayList<RelojEntity> reloj = relojRepository.buscarRelojDePersonalPorId(Long.valueOf(idPersonal), fecha);
-
+            ArrayList<Long> reloj = relojRepository.buscarRelojPorRutYFecha(rut, fecha);
             if (reloj.isEmpty()){ //no existe reloj
-
-                PersonalEntity personal = personalRepository.buscarPersonalPorRut("11.234.123-6");
-                System.out.println("hola 3");
-                Long idPersonal = personal.getId();
-                System.out.println("id personal");
-                System.out.println(idPersonal);
-                // inicio buscar ultimo id
-                Long ultimoId;
-                Long aux = Long.valueOf(1);
-                ArrayList<Long> ultimoIdAux = relojRepository.buscarUltimoId();
-                if (ultimoIdAux.isEmpty()){
-                    ultimoId = aux;
-                }
-                else{
-                    ultimoId = Long.sum(ultimoIdAux.get(0), aux);
-                }
-                System.out.println(ultimoId);
-                System.out.println("fin");
-                // fin buscar ultimo id
-                RelojEntity nuevoReloj = new RelojEntity(ultimoId, fecha, hora, null, personal.getId());
-                this.guardarReloj(nuevoReloj);
-                listaRelojes.add(nuevoReloj);
+                Long idPersonal = personalRepository.buscarIdPersonalPorRut(rut);
+                relojRepository.ingresarQuery(fecha, hora, null, idPersonal);
             } else { //si existe reloj
-                reloj.get(0).setHora_salida(hora);
-                this.guardarReloj(reloj.get(0));
-                listaRelojes.add(reloj.get(0));
+                relojRepository.actualizarQuery(reloj.get(0), hora);
             }
         }
         return listaRelojes;

@@ -14,7 +14,7 @@ public interface PersonalRepository extends CrudRepository<PersonalEntity, Long>
     @Query(value = "SELECT personal.fecha_ingreso FROM personal WHERE personal.id=:id", nativeQuery = true)
     LocalDate buscarFechaIngreso(@Param("id") Long id);
 
-    @Query(value = "SELECT * FROM personal WHERE personal.rut=:rut", nativeQuery = true)
-    PersonalEntity buscarPersonalPorRut(@Param("rut") String rut);
+    @Query(value = "SELECT personal.id FROM personal WHERE personal.rut=:rut", nativeQuery = true)
+    Long buscarIdPersonalPorRut(@Param("rut") String rut);
 }
 
