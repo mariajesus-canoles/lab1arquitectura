@@ -1,5 +1,5 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,17 +28,23 @@
     </div>
 </nav>
 
-<div class="container-sm">
-    <form th:action="@{/cargar}" method="post" enctype="multipart/form-data" class="row g-3">
-        <div class="mb-3">
-            <label for="formFile" class="form-label">Ingresar archivo con marca horaria</label>
-            <input class="form-control" type="file" id="formFile" name="archivos" required>
-        </div>
-        <div class="col-auto">
-            <button type="submit" value="cargar" class="btn btn-primary mb-3">Subir</button>
-        </div>
-    </form>
-</div>
+<form th:action="@{/ingresarHoraExtra}" method = "post">
+    <div class="mb-3 container">
+        <label for="Controlrut" class="form-label">Rut Formato:11.111.111-3</label>
+        <input type="text" class="form-control" id="Controlrut" name="Rut" required>
+    </div>
+    <div class="mb-3 container">
+        <label for="ControlFecha" class="form-label">Fecha Formato:Años/Mes/Día</label>
+        <input type="text" class="form-control" id="ControlFecha" name="Fecha" required>
+    </div>
+    <div class="mb-3 container">
+        <label for="ControlHoras" class="form-label">Horas</label>
+        <input type="text" class="form-control" id="ControlHoras" name="Horas" required>
+    </div>
+    <div class="d-grid gap-2 container">
+        <button class="btn btn-primary" value="Submit" type="submit">Subir</button>
+    </div>
+</form>
 
 </body>
 </html>

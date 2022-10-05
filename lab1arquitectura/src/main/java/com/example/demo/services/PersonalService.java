@@ -36,6 +36,9 @@ public class PersonalService {
     @Autowired
     JustificativoService justificativoService;
 
+    @Autowired
+    CotizacionFacade cotizacionFacade;
+
     public ArrayList<PersonalEntity> obtenerPersonales(){
         return (ArrayList<PersonalEntity>) personalRepository.findAll();
     }
@@ -111,7 +114,8 @@ public class PersonalService {
             //Sueldo bruto
             Integer sueldoBruto = sueldoFijo + bonificacionHorasExtras + bonificacionTiempoServicio + bonificacionPuntualidad - (descuentoTardanza + descuentoRetiro);
             planilla.setSueldo_bruto(sueldoBruto);
-            ArrayList<Integer> cotizaciones= this.calcularCotizacion(this.personalRepository.buscarFechaIngreso(personal.getId()), sueldoBruto);
+            ArrayList<Integer> cotizaciones = cotizacionFacade.calcularCotizaciones(this.personalRepository.buscarFechaIngreso(personal.getId()), sueldoBruto);
+            //ArrayList<Integer> cotizaciones= this.calcularCotizacion(this.personalRepository.buscarFechaIngreso(personal.getId()), sueldoBruto);
             //Cotización Previsional
             planilla.setCotizacion_previsional(cotizaciones.get(0));
             //Cotización salud
@@ -155,6 +159,7 @@ public class PersonalService {
         return bonificacionTiempoServicioInteger;
     }
 
+    /*
     ArrayList<Integer> calcularCotizacion(LocalDate fecha_ingreso, Integer sueldoBruto){
         Integer ano_ingreso = fecha_ingreso.getYear();
         Double cotizacionPrevisional = 0.0;
@@ -176,6 +181,6 @@ public class PersonalService {
         listaCotizacion.add(cotizacionPrevisional.intValue());
         listaCotizacion.add(cotizacionPlanSalud.intValue());
         return listaCotizacion;
-    }
+    }*/
 
 }

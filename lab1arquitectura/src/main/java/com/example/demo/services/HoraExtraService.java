@@ -4,12 +4,14 @@ import com.example.demo.entities.HoraExtraEntity;
 import com.example.demo.entities.PersonalEntity;
 import com.example.demo.repositories.HoraExtraRepository;
 import com.example.demo.repositories.PagoRepository;
+import com.example.demo.repositories.PersonalRepository;
 import com.example.demo.repositories.RelojRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -23,6 +25,10 @@ public class HoraExtraService {
 
     @Autowired
     RelojRepository relojRepository;
+
+    @Autowired
+    PersonalRepository personalRepository;
+
 
     public ArrayList<HoraExtraEntity> obtenerHorasExtras(){
         return (ArrayList<HoraExtraEntity>) horaExtraRepository.findAll();
@@ -75,6 +81,16 @@ public class HoraExtraService {
         Integer numHorasTotales = calcularNumeroHorasExtras(idPersonal);
         Integer bonificacionHorasExtras = valorHoraExtra * numHorasTotales;
         return bonificacionHorasExtras;
+    }
+
+    public void ingresarHoraExtraEnBD(String fechaAux, String numHorasAux, String rut){
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate fecha = LocalDate.parse(fechaAux, df);
+        Integer numHoras = Integer.parseInt(numHorasAux);
+        Long idPersonal = personalRepository.buscarIdPersonalPorRut(rut);
+        //ArrayList<HoraExtraEntity> horaExtra= horaExtraRepository.buscarHorasExtrasPorIdPersonal(idPersonal);
+        horaExtraRepository.ingresarQuery(fecha, numHoras, idPersonal);
+        System.out.println("hora extra ingresado correctamente");
     }
 
 
