@@ -19,10 +19,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="/subirArchivoMarcaHoraria">Subir Archivos</a>
+                <a class="nav-link" href="/subirArchivoMarcaHoraria">Ingresar Marca Horaria</a>
                 <a class="nav-link" href="/ingresarHoraExtra">Ingresar Justificativo Hora Extra</a>
                 <a class="nav-link" href="/ingresarJustificativo">Ingresar Justificativo Inasistencia</a>
-                <a class="nav-link" href="/listar">Calcular Cotizaciones</a>
+                <a class="nav-link" href="/listar">Obtener Planilla Empleados</a>
             </div>
         </div>
     </div>
@@ -30,15 +30,15 @@
 
 <form th:action="@{/ingresarHoraExtra}" method = "post">
     <div class="mb-3 container">
-        <label for="Controlrut" class="form-label">Rut Formato:11.111.111-3</label>
+        <label for="Controlrut" class="form-label">Rut (ej:11.111.111-3):</label>
         <input type="text" class="form-control" id="Controlrut" name="Rut" required>
     </div>
     <div class="mb-3 container">
-        <label for="ControlFecha" class="form-label">Fecha Formato:Años/Mes/Día</label>
+        <label for="ControlFecha" class="form-label">Fecha (ej:yyyy/MM/dd):</label>
         <input type="text" class="form-control" id="ControlFecha" name="Fecha" required>
     </div>
     <div class="mb-3 container">
-        <label for="ControlHoras" class="form-label">Horas</label>
+        <label for="ControlHoras" class="form-label">Número de horas autoriadas (ej:3):</label>
         <input type="text" class="form-control" id="ControlHoras" name="Horas" required>
     </div>
     <div class="d-grid gap-2 container">
