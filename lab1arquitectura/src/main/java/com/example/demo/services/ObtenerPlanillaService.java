@@ -1,17 +1,17 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.*;
+import com.example.demo.entities.JustificativoEntity;
+import com.example.demo.entities.PersonalEntity;
+import com.example.demo.entities.PlanillaEntity;
+import com.example.demo.entities.RelojEntity;
 import com.example.demo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
-public class PersonalService {
+public class ObtenerPlanillaService {
     @Autowired
     PersonalRepository personalRepository;
 
@@ -48,30 +48,11 @@ public class PersonalService {
     @Autowired
     CategoriaService categoriaService;
 
-    public ArrayList<PersonalEntity> obtenerPersonales(){
-        return (ArrayList<PersonalEntity>) personalRepository.findAll();
-    }
+    @Autowired
+    PersonalService personalService;
 
-    public PersonalEntity guardarPersonal(PersonalEntity personal){
-
-        return personalRepository.save(personal);
-    }
-
-    public Optional<PersonalEntity> obtenerPersonalPorId(Long id){
-        return personalRepository.findById(id);
-    }
-
-    public boolean eliminarPersonal(Long id) {
-        try{
-            personalRepository.deleteById(id);
-            return true;
-        }catch(Exception err){
-            return false;
-        }
-    }
-
-    public ArrayList<PlanillaEntity> obtenerPlanillaPersonales(){
-        ArrayList<PersonalEntity> listaPersonal = this.obtenerPersonales();
+    public ArrayList<PlanillaEntity> calcularPlanillaPersonales(){
+        ArrayList<PersonalEntity> listaPersonal = personalService.obtenerPersonales();
         ArrayList<PlanillaEntity> listaPlanilla = new ArrayList<PlanillaEntity>();
 
         for (PersonalEntity personal: listaPersonal) {
@@ -140,63 +121,5 @@ public class PersonalService {
             listaPlanilla.add(planilla);
         }
         return listaPlanilla;
-
     }
-
-    /*
-    public Integer calcularAnosServicios(LocalDate fechaIngreso){
-        LocalDate fechaActual = LocalDate.now();
-        Integer diferenciaAnos = fechaActual.getYear() - fechaIngreso.getYear();
-        return diferenciaAnos;
-    }*/
-
-    /*
-    public Integer calcularBonificacionTiempoServicio(Integer anosServicioEmpresa, Integer sueldoFijo){
-        Double bonificacionTiempoServicio;
-        if (anosServicioEmpresa<5){
-            return 0;
-        }
-        else if (anosServicioEmpresa>=5 && anosServicioEmpresa<10) {
-            bonificacionTiempoServicio = sueldoFijo*0.05;
-        }
-        else if (anosServicioEmpresa>=10 && anosServicioEmpresa<15) {
-            bonificacionTiempoServicio = sueldoFijo*0.08;
-        }
-        else if(anosServicioEmpresa>=15 && anosServicioEmpresa<20) {
-            bonificacionTiempoServicio = sueldoFijo*0.11;
-        }
-        else if(anosServicioEmpresa>=20){
-            bonificacionTiempoServicio = sueldoFijo*0.14;
-        }
-        else {
-            bonificacionTiempoServicio = sueldoFijo*0.17;
-        }
-        Integer bonificacionTiempoServicioInteger = bonificacionTiempoServicio.intValue();
-        return bonificacionTiempoServicioInteger;
-    }*/
-
-    /*
-    ArrayList<Integer> calcularCotizacion(LocalDate fecha_ingreso, Integer sueldoBruto){
-        Integer ano_ingreso = fecha_ingreso.getYear();
-        Double cotizacionPrevisional = 0.0;
-        Double cotizacionPlanSalud = 0.0;
-        ArrayList<Integer> listaCotizacion = new ArrayList<Integer>();
-        System.out.println("Año ingreso");
-        System.out.println(ano_ingreso);
-        if (ano_ingreso < 1980){
-            cotizacionPrevisional = sueldoBruto * 0.07;
-            cotizacionPlanSalud = sueldoBruto * 0.07;
-        } else if (ano_ingreso >= 1980 && ano_ingreso < 2000) {
-            cotizacionPrevisional = sueldoBruto * 0.09;
-            cotizacionPlanSalud = sueldoBruto * 0.08;
-        }
-        else {
-            cotizacionPrevisional = sueldoBruto * 0.1;
-            cotizacionPlanSalud = sueldoBruto * 0.08;
-        }
-        listaCotizacion.add(cotizacionPrevisional.intValue());
-        listaCotizacion.add(cotizacionPlanSalud.intValue());
-        return listaCotizacion;
-    }*/
-
 }
